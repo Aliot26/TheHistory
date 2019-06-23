@@ -46,25 +46,120 @@ public class TheHistoryLinkedList implements TheHistory {
 //                iter.remove();
 //                iter.add(to);
 
+
+
     @Override
     public void replaceMoreWords(String[] fromWords, String[] toWords) {
+        ListIterator iter = this.wordsLinkedList.listIterator();
         int lengthFromWords = fromWords.length;
-        int lengthToWords = toWords.length;
-        int lengthList = wordsLinkedList.size();
-        ListIterator<String> iter = wordsLinkedList.listIterator();
-        while (iter.nextIndex() <= lengthList - lengthFromWords) {
-            String item = iter.next();
-            if (item.equals(fromWords[0])) {
-                ListIterator<String> iter2 = iter;
-                while (iter2.hasNext()) {
-                    System.out.println(iter2.next());
-                    if (!word.equals(iter2.next())) {
-                        break;
-                    }
+        int count = fromWords.length - 1;
+
+        String[] partWords = new String[lengthFromWords];
+        List<String> newList = new LinkedList<>();
+
+        while (iter.hasNext()) {
+            for (int j = 0; j < lengthFromWords - 1; j++) {
+                partWords[j] = partWords[j + 1];
+            }
+            partWords[lengthFromWords - 1] = iter.next().toString();
+            if (count == 0) {
+                if (Arrays.equals(partWords, fromWords)) {
+                    Collections.addAll(newList, toWords);
+                    count = fromWords.length - 1;
+                } else {
+                    newList.add(partWords[0]);
                 }
+            } else {
+                count--;
             }
         }
+        for (int i = count + 1; i < lengthFromWords; i++) {
+            newList.add(partWords[i]);
+        }
+        this.wordsLinkedList = newList;
     }
+
+
+
+//    @Override
+//    public void replaceMoreWords(String[] fromWords, String[] toWords) {
+//        int lengthFromWords = fromWords.length;
+//        if (lengthFromWords > 0
+//                && toWords.length > 0) {
+//            ListIterator<String> iterator = wordsLinkedList.listIterator();
+//
+//            while (iterator.hasNext()) {
+//                if (isFromWordsAtIndex(fromWords, iterator.nextIndex())) {
+//                    for (String word : fromWords) {
+//                        if (iterator.hasNext()) {
+//                            iterator.next();
+//                            iterator.remove();
+//                        }
+//                        else {
+//                            break;
+//                        }
+//                    }
+//                    for (String word : toWords) {
+//                        iterator.add(word);
+//                    }
+//                }
+//                else {
+//                    iterator.next();
+//                }
+//            }
+//        }
+//
+//    }
+//
+//    private boolean isFromWordsAtIndex(String[] fromWords, int index) {
+//        ListIterator<String> iter = wordsLinkedList.listIterator(index);
+//        int matchCount = 0;
+//
+//        for (int i = 0; i < fromWords.length; i++) {
+//            if (iter.hasNext()
+//                    && iter.next().equals(fromWords[i])) {
+//                matchCount++;
+//            }
+//            else {
+//                break;
+//            }
+//        }
+//        return matchCount == fromWords.length;
+//    }
+
+//    @Override
+//    public void replaceMoreWords(String[] fromWords, String[] toWords) {
+//        int lengthFromWords = fromWords.length;
+//        int lengthToWords = toWords.length;
+//        int lengthList = wordsLinkedList.size();
+//        for (int i = 0; i < lengthList - lengthFromWords; i++) {
+//            if (wordsLinkedList.get(i).equals(fromWords[0])) {
+//                System.out.println(wordsLinkedList.get(i));
+//                ListIterator<String> iter = wordsLinkedList.listIterator(i);
+//                int indexFromWords = 0;
+//                while (lengthFromWords > 0) {
+//                    String temp = iter.next();
+//                    if(iter.next().equals(fromWords[indexFromWords])){
+//                        indexFromWords++;
+//                        System.out.println(iter.next());
+//                    }
+//                    lengthFromWords--;
+//                }
+//            }
+//        }
+//    }
+//        ListIterator<String> iter = wordsLinkedList.listIterator();
+//        while (iter.nextIndex() <= lengthList - lengthFromWords) {
+//            String item = iter.next();
+//            if (item.equals(fromWords[0])) {
+//                ListIterator<String> iter2 = iter;
+//                while (iter2.hasNext()) {
+//                    System.out.println();
+//
+//                }
+//            }
+//        }
+//    }
 
 //
 //        for (int i = 0; i < wordsLinkedList.size(); i++) {
