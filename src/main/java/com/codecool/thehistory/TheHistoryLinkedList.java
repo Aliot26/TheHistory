@@ -50,33 +50,72 @@ public class TheHistoryLinkedList implements TheHistory {
 
     @Override
     public void replaceMoreWords(String[] fromWords, String[] toWords) {
-        ListIterator iter = this.wordsLinkedList.listIterator();
-        int lengthFromWords = fromWords.length;
-        int count = fromWords.length - 1;
 
-        String[] partWords = new String[lengthFromWords];
-        List<String> newList = new LinkedList<>();
-
-        while (iter.hasNext()) {
-            for (int j = 0; j < lengthFromWords - 1; j++) {
-                partWords[j] = partWords[j + 1];
+        int count;
+        String word;
+        int fromWordsLength = fromWords.length;
+        int toWordsLength = toWords.length;
+        ListIterator<String> it = wordsLinkedList.listIterator();
+        while (it.hasNext()) {
+            word = it.next();
+            count = 0;
+            try {
+                for (int j = 0; j < fromWordsLength; j++) {
+                    if (j != 0) {
+                        word = it.next();
+                    }
+                    if (word.equals(fromWords[j])) {
+                        count++;
+                    } else {
+                        break;
+                    }
+                }
+            } catch(Exception e) {
+                break;
             }
-            partWords[lengthFromWords - 1] = iter.next().toString();
-            if (count == 0) {
-                if (Arrays.equals(partWords, fromWords)) {
-                    Collections.addAll(newList, toWords);
-                    count = fromWords.length - 1;
-                } else {
-                    newList.add(partWords[0]);
+            if (count == fromWordsLength) {
+                for (int j=0; j < fromWordsLength; j++) {
+                    it.previous();
+                    it.next();
+                    it.remove();
+                }
+                for (int j=0; j < toWordsLength; j++) {
+                    it.add(toWords[j]);
                 }
             } else {
-                count--;
+                for (int j=0; j < count; j++) {
+                    it.previous();
+                }
             }
         }
-        for (int i = count + 1; i < lengthFromWords; i++) {
-            newList.add(partWords[i]);
-        }
-        this.wordsLinkedList = newList;
+//    public void replaceMoreWords(String[] fromWords, String[] toWords) {
+//        ListIterator iter = this.wordsLinkedList.listIterator();
+//        int lengthFromWords = fromWords.length;
+//        int count = lengthFromWords - 1;
+//
+//        String[] partWords = new String[lengthFromWords];
+//        List<String> newList = new LinkedList<>();
+//
+//        while (iter.hasNext()) {
+//            for (int j = 0; j < lengthFromWords - 1; j++) {
+//                partWords[j] = partWords[j + 1];
+//            }
+//            partWords[lengthFromWords - 1] = iter.next().toString();
+//            if (count == 0) {
+//                if (Arrays.equals(partWords, fromWords)) {
+//                    Collections.addAll(newList, toWords);
+//                    count = lengthFromWords - 1;
+//                } else {
+//                    newList.add(partWords[0]);
+//                }
+//            } else {
+//                count--;
+//            }
+//        }
+//        for (int i = count + 1; i < lengthFromWords; i++) {
+//            newList.add(partWords[i]);
+//        }
+//        this.wordsLinkedList = newList;
     }
 
 
